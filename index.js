@@ -14,6 +14,17 @@ app.get("/assets/:file", function (req, res) {
   console.log("Here",req.app.path());
 });
 
+app.head("/video", function (req, res) {
+  console.log("HEAD request received");
+  const videoSize = fs.statSync("som3.mp4").size;
+  const headers = {
+    "Content-Length": videoSize,
+    "Content-Type": "video/mp4",
+  };
+  res.writeHead(200, headers);
+  res.end();
+});
+
 app.get("/video", function (req, res) {
   // Ensure there is a range given for the video
   const range = req.headers.range;
